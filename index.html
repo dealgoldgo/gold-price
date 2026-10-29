@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>香港金價比較 | 周生生 vs 周大福</title>
+  <style>
+    :root {
+      --gold: #c9a227;
+      --gold-dark: #a67c00;
+      --bg: #faf8f4;
+      --card: #ffffff;
+      --text: #1a1a1a;
+      --muted: #666;
+      --border: #e8e2d6;
+      --green: #0a7a3e;
+      --red: #b91c1c;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang HK", "Microsoft JhengHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 40px;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      padding: 20px 16px 28px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+
+    .header h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .header .subtitle {
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 6px;
+    }
+
+    .update-time {
+      display: inline-block;
+      margin-top: 12px;
+      background: rgba(201, 162, 39, 0.2);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 20px 14px;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      padding-left: 10px;
+      border-left: 4px solid var(--gold);
+      color: #333;
+    }
+
+    .compare-card {
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .brand-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand-header {
+      padding: 14px 12px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .brand-header.css {
+      background: #f8f1e3;
+      color: #8a6d1b;
+    }
+
+    .brand-header.ctf {
+      background: #f0f4f8;
+      color: #1e3a5f;
+    }
+
+    .price-grid {
+      display: grid;
+      grid-template-columns: 100px 1fr 1fr;
+    }
+
+    .price-label {
+      background: #f7f5f0;
+      padding: 12px 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    .price-cell {
+      padding: 12px 8px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+    }
+
+    .price-cell .unit {
+      font-size: 0.72rem;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .price-cell .value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .price-cell .value.highlight {
+      color: var(--gold-dark);
+    }
+
+    .diff-row {
+      background: #fafafa;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .diff-positive { color: var(--green); font-weight: 600; }
+    .diff-negative { color: var(--red); font-weight: 600; }
+
+    .note {
+      margin-top: 24px;
+      padding: 14px 16px;
+      background: #fff8e6;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      color: #666;
+      line-height: 1.6;
+      border: 1px solid #f0e0b0;
+    }
+
+    .note strong {
+      color: #8a6d1b;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      font-size: 0.75rem;
+      color: #999;
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.25rem;
+      }
+      .price-grid {
+        grid-template-columns: 80px 1fr 1fr;
+      }
+      .price-cell .value {
+        font-size: 0.95rem;
+      }
+      .brand-header {
+        font-size: 0.9rem;
+        padding: 12px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>香港金價比較</h1>
+    <div class="subtitle">周生生 vs 周大福 · 每日更新</div>
+    <div class="update-time">最後更新：2026-10-29 09:30</div>
+  </div>
+
+  <div class="container">
+
+    <!-- 足金飾品 -->
+    <div class="section">
+      <div class="section-title">足金飾品（999.9）</div>
+      <div class="compare-card">
+        <div class="brand-row">
+          <div class="brand-header css">周生生</div>
+          <div class="brand-header ctf">周大福</div>
+        </div>
+        <div class="price-grid">
+          <div class="price-label">賣出價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">46,712</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">46,788</span>
+          </div>
+
+          <div class="price-label">買入價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">37,129</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">37,131</span>
+          </div>
+
+          <div class="price-label">換貨價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">39,940</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">—</span>
+          </div>
+        </div>
+        <div class="diff-row">
+          賣出價差異：周大福貴 <span class="diff-negative">+HK$76</span> / 兩
+        </div>
+      </div>
+    </div>
+
+    <!-- 金粒 / 金條 -->
+    <div class="section">
+      <div class="section-title">足金金粒 / 金條</div>
+      <div class="compare-card">
+        <div class="brand-row">
+          <div class="brand-header css">周生生</div>
+          <div class="brand-header ctf">周大福</div>
+        </div>
+        <div class="price-grid">
+          <div class="price-label">賣出價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">40,910</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">42,633</span>
+          </div>
+
+          <div class="price-label">買入價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">36,904</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">36,906</span>
+          </div>
+        </div>
+        <div class="diff-row">
+          賣出價差異：周大福貴 <span class="diff-negative">+HK$1,723</span> / 兩
+        </div>
+      </div>
+    </div>
+
+    <!-- 鉑金 -->
+    <div class="section">
+      <div class="section-title">足鉑金飾品</div>
+      <div class="compare-card">
+        <div class="brand-row">
+          <div class="brand-header css">周生生</div>
+          <div class="brand-header ctf">周大福</div>
+        </div>
+        <div class="price-grid">
+          <div class="price-label">賣出價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">18,191</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value highlight">18,191</span>
+          </div>
+
+          <div class="price-label">買入價</div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">13,062</span>
+          </div>
+          <div class="price-cell">
+            <span class="unit">每兩</span>
+            <span class="value">13,063</span>
+          </div>
+        </div>
+        <div class="diff-row">
+          兩邊價格幾乎相同
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>注意：</strong><br>
+      • 以上價格僅供參考，實際交易以門市或官方網站當日公布為準。<br>
+      • 計價金飾通常另收佣金及手工費。<br>
+      • 資料每日更新一次，非即時報價。
+    </div>
+
+    <footer>
+      香港金價比較 · 資料來源：周生生 & 周大福官方網站
+    </footer>
+  </div>
+
+</body>
+</html>
